@@ -4,6 +4,8 @@ from abc import ABCMeta, abstractmethod
 from typing import Callable, Iterator
 from Either import Either, Left, Right
 
+"""Provides an Option type for safely managing nullable outputs.
+"""
 
 class Option[A](metaclass=ABCMeta):
     def _get_value(self) -> A:
