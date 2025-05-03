@@ -6,6 +6,7 @@ from typing import Callable
 """Provides the Either monad for managing the flow of computation in a functional manner.
 """
 
+
 class Either[A, B](metaclass=ABCMeta):
     def _get_value(self) -> A | B:
         return self.__value

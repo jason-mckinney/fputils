@@ -2,10 +2,11 @@ from __future__ import annotations
 
 from abc import ABCMeta, abstractmethod
 from typing import Callable, Iterator
-from Either import Either, Left, Right
+from python_fp.either import Either, Left, Right
 
 """Provides an Option type for safely managing nullable outputs.
 """
+
 
 class Option[A](metaclass=ABCMeta):
     def _get_value(self) -> A:
@@ -51,14 +52,14 @@ class Option[A](metaclass=ABCMeta):
         Returns:
             True if this is Some and its value is equal to the given value, False otherwise.
         """
-        return self._value == value if self.is_defined() else False
+        return self.get() == value if self.is_defined() else False
 
     def exists(self, predicate: Callable[[A], bool]) -> bool:
         """
         Returns:
             False if this is Empty or returns the result of the given predicate against the Some value.
         """
-        return False if self.is_empty() else predicate(self._value)
+        return False if self.is_empty() else predicate(self.get())
 
     def filter(self, predicate: Callable[[A], bool]) -> Option[A]:
         """
@@ -66,7 +67,7 @@ class Option[A](metaclass=ABCMeta):
             this Option if this is Some and the given predicate does hold for the Some value,
             otherwise Empty
         """
-        return self if self.is_defined() and predicate(self._value) else Empty()
+        return self if self.is_defined() and predicate(self.get()) else Empty()
 
     def filter_not(self, predicate: Callable[[A], bool]) -> Option[A]:
         """
@@ -74,7 +75,7 @@ class Option[A](metaclass=ABCMeta):
             this Option if this is Some and the given predicate does not hold for the Some value,
             otherwise Empty
         """
-        return self if self.is_defined() and not predicate(self._value) else Empty()
+        return self if self.is_defined() and not predicate(self.get()) else Empty()
 
     def flatmap[B](self, f: Callable[[A], Option[B]]) -> Option[B]:
         """
@@ -82,7 +83,7 @@ class Option[A](metaclass=ABCMeta):
             the result of applying f to this Option's value if this Option is non-empty,
             otherwise Empty.
         """
-        return Empty() if self.is_empty() else f(self._value)
+        return Empty() if self.is_empty() else f(self.get())
 
     def map[B](self, f: Callable[[A], B]) -> Option[B]:
         """
@@ -90,7 +91,7 @@ class Option[A](metaclass=ABCMeta):
             the result of applying f to this Option's value if this Option is non-empty,
             otherwise Empty.
         """
-        return Empty() if self.is_empty() else Some(f(self._value))
+        return Empty() if self.is_empty() else Some(f(self.get()))
 
     def flatten[B](self) -> Option[B]:
         """
@@ -100,16 +101,19 @@ class Option[A](metaclass=ABCMeta):
 
         raises: AssertionError: If this is a Some and the nested value is not an Option.
         """
+        if self.is_empty():
+            return Empty()
+
         assert isinstance(self._value, Option)
-        return Empty() if self.is_empty() else self._value
+        return self._value
 
     def fold[B](self, f: Callable[[A], B], if_empty: B) -> B:
         """
         Returns:
             if_empty if this is Empty,
-            f(self._value) if this is Some.
+            f(self.get()) if this is Some.
         """
-        return if_empty if self.is_empty() else f(self._value)
+        return if_empty if self.is_empty() else f(self.get())
 
     def forall(self, predicate: Callable[[A], bool]) -> bool:
         """
@@ -118,14 +122,14 @@ class Option[A](metaclass=ABCMeta):
             True if this is Some and the given predicate holds for the Some value,
             False otherwise.
         """
-        return True if self.is_empty() else predicate(self._value)
+        return True if self.is_empty() else predicate(self.get())
 
     def foreach(self, f: Callable[[A], None]) -> None:
         """
         Applies the given function to this Option's value if this Option is non-empty.
         """
         if self.is_defined():
-            f(self._value)
+            f(self.get())
 
     def get_or_else(self, other: A) -> A:
         """
@@ -133,7 +137,7 @@ class Option[A](metaclass=ABCMeta):
             this Option's value if this is Some,
             other otherwise.
         """
-        return self._value if self.is_defined() else other
+        return self.get() if self.is_defined() else other
 
     def iterator(self) -> Iterator[A]:
         """
@@ -141,7 +145,7 @@ class Option[A](metaclass=ABCMeta):
             An iterator over this Option's value if this is Some,
             otherwise an empty iterator.
         """
-        return iter([self._value]) if self.is_defined() else iter([])
+        return iter([self.get()]) if self.is_defined() else iter([])
 
     def or_else(self, other: Option[A]) -> Option[A]:
         """
@@ -157,7 +161,7 @@ class Option[A](metaclass=ABCMeta):
             this Option's value if this is Some,
             None otherwise.
         """
-        return self._value if self.is_defined() else None
+        return self.get() if self.is_defined() else None
 
     def to_left[B](self, right: B) -> Either[A, B]:
         """
@@ -165,15 +169,15 @@ class Option[A](metaclass=ABCMeta):
             this Option's value as a Left if this is Some,
             otherwise a Right with the given value.
         """
-        return Left(self._value) if self.is_defined() else Right(right)
+        return Left(self.get()) if self.is_defined() else Right(right)
 
-    def to_right[B](self, left: A) -> Either[A, B]:
+    def to_right[B](self, left: B) -> Either[B, A]:
         """
         Returns:
             this Option's value as a Right if this is Some,
             otherwise a Left with the given value.
         """
-        return Right(self._value) if self.is_defined() else Left(left)
+        return Right(self.get()) if self.is_defined() else Left(left)
 
     def unzip[B](self) -> tuple[Option[A], Option[B]]:
         """
@@ -182,7 +186,7 @@ class Option[A](metaclass=ABCMeta):
         """
         return (
             (Some(self._value[0]), Some(self._value[1]))
-            if self.is_defined() and isinstance(self._value, tuple)
+            if self.is_defined() and isinstance(self.get(), tuple)
             else (Empty(), Empty())
         )
 
@@ -193,7 +197,7 @@ class Option[A](metaclass=ABCMeta):
             otherwise Empty.
         """
         return (
-            Some((self._value, other.value))
+            Some((self.get(), other.get()))
             if self.is_defined() and other.is_defined()
             else Empty()
         )
