@@ -20,7 +20,7 @@ class IO[A]:
         """Constructor
 
         Parameters:
-            effect: A callable returning the computation result, or a raw value.
+            a: A callable returning the computation result, or a raw value.
             *args: Positional arguments for the effect callable.
             **kwargs: Keyword arguments for the effect callable.
         """
