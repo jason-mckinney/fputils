@@ -23,7 +23,7 @@ jobs:
       - name: Publish release
         env:
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-          PYPI_REPOSITORY: ${{ env.PYPI_REPOSITORY }}
+          PYPI_REPOSITORY: ${{ vars.PYPI_REPOSITORY }}
         run: python -m twine upload -r $PYPI_REPOSITORY dist/*
 
   build-docs:
