@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install pdoc
-        run: pip install pdoc
+        run: pip install pdoc3
       - name: Build docs
         run: pdoc --html --output-dir docs src/fputils
       - name: Upload pages artifact
