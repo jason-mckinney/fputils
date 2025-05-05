@@ -39,24 +39,7 @@ hljs.highlightAll();
 <span>class <span class="ident">Empty</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>Abstract base class for generic types.</p>
-<p>On Python 3.12 and newer, generic classes implicitly inherit from
-Generic when they declare a parameter list after the class's name::</p>
-<pre><code>class Mapping[KT, VT]:
-    def __getitem__(self, key: KT) -&gt; VT:
-        ...
-    # Etc.
-</code></pre>
-<p>On older versions of Python, however, generic classes have to
-explicitly inherit from Generic.</p>
-<p>After a class has been declared to be generic, it can then be used as
-follows::</p>
-<pre><code>def lookup_name[KT, VT](mapping: Mapping[KT, VT], key: KT, default: VT) -&gt; VT:
-    try:
-        return mapping[key]
-    except KeyError:
-        return default
-</code></pre></div>
+<div class="desc"><p>Generic Option type to represent a value that may or may not be present.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -111,29 +94,14 @@ follows::</p>
 <span>class <span class="ident">Option</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>Abstract base class for generic types.</p>
-<p>On Python 3.12 and newer, generic classes implicitly inherit from
-Generic when they declare a parameter list after the class's name::</p>
-<pre><code>class Mapping[KT, VT]:
-    def __getitem__(self, key: KT) -&gt; VT:
-        ...
-    # Etc.
-</code></pre>
-<p>On older versions of Python, however, generic classes have to
-explicitly inherit from Generic.</p>
-<p>After a class has been declared to be generic, it can then be used as
-follows::</p>
-<pre><code>def lookup_name[KT, VT](mapping: Mapping[KT, VT], key: KT, default: VT) -&gt; VT:
-    try:
-        return mapping[key]
-    except KeyError:
-        return default
-</code></pre></div>
+<div class="desc"><p>Generic Option type to represent a value that may or may not be present.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Option[A](metaclass=ABCMeta):
+    &#34;&#34;&#34;Generic Option type to represent a value that may or may not be present.&#34;&#34;&#34;
+
     def _get_value(self) -&gt; A:
         return self.__value
 
@@ -508,24 +476,7 @@ otherwise Empty.</p></div>
 <span>(</span><span>value: A)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Abstract base class for generic types.</p>
-<p>On Python 3.12 and newer, generic classes implicitly inherit from
-Generic when they declare a parameter list after the class's name::</p>
-<pre><code>class Mapping[KT, VT]:
-    def __getitem__(self, key: KT) -&gt; VT:
-        ...
-    # Etc.
-</code></pre>
-<p>On older versions of Python, however, generic classes have to
-explicitly inherit from Generic.</p>
-<p>After a class has been declared to be generic, it can then be used as
-follows::</p>
-<pre><code>def lookup_name[KT, VT](mapping: Mapping[KT, VT], key: KT, default: VT) -&gt; VT:
-    try:
-        return mapping[key]
-    except KeyError:
-        return default
-</code></pre></div>
+<div class="desc"><p>Generic Option type to represent a value that may or may not be present.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>

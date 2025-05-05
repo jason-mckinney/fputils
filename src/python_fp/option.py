@@ -9,6 +9,8 @@ from python_fp.either import Either, Left, Right
 
 
 class Option[A](metaclass=ABCMeta):
+    """Generic Option type to represent a value that may or may not be present."""
+
     def _get_value(self) -> A:
         return self.__value
 

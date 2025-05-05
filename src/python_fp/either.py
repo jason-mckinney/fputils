@@ -8,6 +8,8 @@ from typing import Callable
 
 
 class Either[A, B](metaclass=ABCMeta):
+    """Generic Either monad to represent a value that can be one of two types."""
+
     def _get_value(self) -> A | B:
         return self.__value
 
