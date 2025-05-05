@@ -1,16 +1,36 @@
-name: Build and Publish Docs
+name: Build and Publish
 
 on:
   release:
     types: [published]
 
 jobs:
-  build-docs:
+  build-and-publish-release:
+    environment:
+      name: PyPI
+
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          ref: master
+          python-version: '3.12'
+      - name: Install build deps
+        run: pip install setuptools setuptools-git-versioning build twine
+      - name: Build release
+        run: python -m build
+      - name: Publish release
+        env:
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+          PYPI_REPOSITORY: ${{ env.PYPI_REPOSITORY }}
+        run: python -m twine upload -r $PYPI_REPOSITORY dist/*
+
+  build-docs:
+    needs: build-and-publish-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
