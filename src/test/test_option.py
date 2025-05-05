@@ -1,4 +1,4 @@
-from fputils.option import Some, Empty
+from fputils import Some, Empty
 import pytest
 
 

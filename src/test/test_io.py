@@ -1,4 +1,4 @@
-from fputils.io import IO
+from fputils import IO
 import pytest
 
 

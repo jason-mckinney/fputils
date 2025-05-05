@@ -1,4 +1,4 @@
-from fputils.either import Left, Right
+from fputils import Left, Right
 
 
 def test_is_left():

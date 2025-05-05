@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from abc import ABCMeta, abstractmethod
 from typing import Callable
-from fputils.either import Either, Left, Right
+from fputils import Either, Left, Right
 
 """Provides an Option type for safely managing nullable outputs.
 """
