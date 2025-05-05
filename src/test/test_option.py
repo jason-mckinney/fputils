@@ -1,4 +1,4 @@
-from python_fp.option import Some, Empty
+from fputils.option import Some, Empty
 import pytest
 
 
