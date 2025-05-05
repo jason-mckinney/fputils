@@ -14,10 +14,7 @@ class Either[A, B](metaclass=ABCMeta):
     def _set_value(self, value: A | B):
         self.__value = value
 
-    def _del_value(self) -> None:
-        del self.__value
-
-    _value = property(_get_value, _set_value, _del_value)
+    _value = property(_get_value, _set_value)
 
     @abstractmethod
     def is_left(self) -> bool:
