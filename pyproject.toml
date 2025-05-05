@@ -3,8 +3,8 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "fputils"
-version = "0.0.1"
+name = "fputils-python"
+version = "0.0.2"
 description = "Utility classes for functional programming in Python"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -23,4 +23,5 @@ classifiers = [
 Documentation = "https://jason-mckinney.github.io/fputils/"
 
 [tool.setuptools.packages.find]
-exclude = ["test", "tests", "test.*", "tests.*"]
+where = ["src"]
+exclude = ["test", "test.*"]
