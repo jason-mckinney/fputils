@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools", "setuptools-git-versioning>=2.0,<3"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "fputils-python"
-version = "0.0.2"
+dynamic = ["version"]
 description = "Utility classes for functional programming in Python"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -21,6 +21,9 @@ classifiers = [
 
 [project.urls]
 Documentation = "https://jason-mckinney.github.io/fputils/"
+
+[tool.setuptools-git-versioning]
+enabled = true
 
 [tool.setuptools.packages.find]
 where = ["src"]
