@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABCMeta, abstractmethod
-from typing import Callable, Iterator
+from typing import Callable
 from python_fp.either import Either, Left, Right
 
 """Provides an Option type for safely managing nullable outputs.
@@ -15,10 +15,16 @@ class Option[A](metaclass=ABCMeta):
     def _set_value(self, value: A):
         self.__value = value
 
-    def _del_value(self) -> None:
-        del self.__value
+    _value = property(_get_value, _set_value)
 
-    _value = property(_get_value, _set_value, _del_value)
+    @abstractmethod
+    def __iter__(self):
+        """
+        Returns:
+            An iterator over this Option's value if this is Some,
+            otherwise an empty iterator.
+        """
+        return NotImplemented
 
     @abstractmethod
     def get(self) -> A:
@@ -46,6 +52,15 @@ class Option[A](metaclass=ABCMeta):
             True if this is Empty, False otherwise.
         """
         return NotImplemented
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Option):
+            return False
+        if self.is_empty() and other.is_empty():
+            return True
+        if self.is_empty() != other.is_empty():
+            return False
+        return self.get() == other.get()
 
     def contains(self, value: A) -> bool:
         """
@@ -139,14 +154,6 @@ class Option[A](metaclass=ABCMeta):
         """
         return self.get() if self.is_defined() else other
 
-    def iterator(self) -> Iterator[A]:
-        """
-        Returns:
-            An iterator over this Option's value if this is Some,
-            otherwise an empty iterator.
-        """
-        return iter([self.get()]) if self.is_defined() else iter([])
-
     def or_else(self, other: Option[A]) -> Option[A]:
         """
         Returns:
@@ -216,6 +223,9 @@ class Some[A](Option[A]):
     def is_empty(self) -> bool:
         return False
 
+    def __iter__(self):
+        yield self._value
+
 
 class Empty(Option):
     def get(self) -> None:
@@ -226,3 +236,6 @@ class Empty(Option):
 
     def is_empty(self) -> bool:
         return True
+
+    def __iter__(self):
+        yield from ()
