@@ -17,7 +17,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install build deps
-        run: pip install setuptools setuptools-git-versioning build twine
+        run: pip install setuptools build twine
       - name: Build release
         run: python -m build
       - name: Publish release
