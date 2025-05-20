@@ -15,9 +15,9 @@ authors = [
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python :: 3",
-  "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent"
 ]
+license = "MIT"
 
 [project.urls]
 Documentation = "https://jason-mckinney.github.io/fputils/"
@@ -27,3 +27,6 @@ Documentation = "https://jason-mckinney.github.io/fputils/"
 [tool.setuptools.packages.find]
 where = ["src"]
 exclude = ["test", "test.*"]
+
+[tool.setuptools.package-data]
+fputils = ["*.pyi"]
