@@ -28,3 +28,6 @@ jobs:
 
       - name: Ruff check formatting
         run: ruff format --check
+
+      - name: Mypy check type hints
+        run: mypy .
